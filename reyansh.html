@@ -1,0 +1,2931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>REYANSH SOMANI // QUANTUM ENGINEERING DIVISION</title>
+
+<meta name="theme-color" content="#04050b">
+<meta name="description" content="Cyberpunk Robotics Portfolio — Reyansh Somani">
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800;900&family=JetBrains+Mono:wght@300;400;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+
+    --bg:#04050b;
+    --bg2:#090d19;
+
+    --cyan:#00f0ff;
+    --purple:#b026ff;
+    --magenta:#ff00cc;
+    --blue:#5c7cff;
+
+    --text:#edf7ff;
+    --muted:#8ea3c5;
+
+    --glass:rgba(255,255,255,.04);
+    --glass2:rgba(255,255,255,.07);
+
+    --border:rgba(255,255,255,.08);
+
+    --shadow:
+    0 30px 80px rgba(0,0,0,.55);
+
+    --radius:30px;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:
+    radial-gradient(circle at top left, rgba(176,38,255,.12), transparent 25%),
+    radial-gradient(circle at bottom right, rgba(0,240,255,.08), transparent 30%),
+    linear-gradient(to bottom,#04050b,#060a15);
+
+    color:var(--text);
+    font-family:"Inter",sans-serif;
+    overflow-x:hidden;
+}
+
+/* ========================== */
+/* CYBER GRID */
+/* ========================== */
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+
+    background:
+    linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+
+    background-size:55px 55px;
+
+    mask-image:radial-gradient(circle at center, black 35%, transparent 100%);
+
+    pointer-events:none;
+    z-index:-4;
+}
+
+/* ========================== */
+/* CRT EFFECT */
+/* ========================== */
+
+body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+
+    background:
+    linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,.16) 50%),
+    linear-gradient(90deg,
+    rgba(255,0,0,.02),
+    rgba(0,255,255,.02),
+    rgba(0,0,255,.02));
+
+    background-size:100% 4px,3px 100%;
+
+    pointer-events:none;
+    z-index:99999;
+}
+
+/* ========================== */
+/* CUSTOM CURSOR */
+/* ========================== */
+
+.cursor{
+    position:fixed;
+    width:22px;
+    height:22px;
+    border:1px solid var(--cyan);
+    border-radius:50%;
+    transform:translate(-50%,-50%);
+    pointer-events:none;
+    z-index:999999;
+    backdrop-filter:blur(5px);
+}
+
+.cursor-dot{
+    position:fixed;
+    width:6px;
+    height:6px;
+    background:var(--cyan);
+    border-radius:50%;
+    transform:translate(-50%,-50%);
+    pointer-events:none;
+    z-index:999999;
+}
+
+/* ========================== */
+/* BACKGROUND CANVAS */
+/* ========================== */
+
+#bg{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    z-index:-3;
+    opacity:.85;
+}
+
+/* ========================== */
+/* ORBS */
+/* ========================== */
+
+.orb{
+    position:fixed;
+    border-radius:50%;
+    filter:blur(120px);
+    pointer-events:none;
+    z-index:-2;
+}
+
+.orb1{
+    width:420px;
+    height:420px;
+    background:rgba(0,240,255,.08);
+    top:-120px;
+    right:-100px;
+}
+
+.orb2{
+    width:340px;
+    height:340px;
+    background:rgba(176,38,255,.10);
+    bottom:-100px;
+    left:-80px;
+}
+
+/* ========================== */
+/* BOOT */
+/* ========================== */
+
+#boot{
+    position:fixed;
+    inset:0;
+    background:black;
+    z-index:9999999;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+}
+
+.boot-box{
+    width:min(600px,90vw);
+    height:280px;
+
+    border-radius:24px;
+
+    background:
+    linear-gradient(
+    180deg,
+    rgba(255,255,255,.06),
+    rgba(255,255,255,.03));
+
+    border:1px solid rgba(0,240,255,.25);
+
+    backdrop-filter:blur(20px);
+
+    overflow:hidden;
+
+    box-shadow:
+    0 0 40px rgba(0,240,255,.18),
+    inset 0 1px 1px rgba(255,255,255,.1);
+}
+
+.boot-top{
+    padding:18px 22px;
+    border-bottom:1px solid rgba(255,255,255,.06);
+
+    font-size:.7rem;
+    letter-spacing:3px;
+    color:var(--cyan);
+}
+
+.boot-log{
+    padding:20px;
+    font-family:"JetBrains Mono";
+    font-size:.82rem;
+    color:#8ffaff;
+    line-height:1.9;
+}
+
+.boot-footer{
+    margin-top:24px;
+    font-family:"Orbitron";
+    letter-spacing:5px;
+    font-size:.75rem;
+    color:var(--magenta);
+}
+
+/* ========================== */
+/* NAV */
+/* ========================== */
+
+header{
+    position:fixed;
+    top:0;
+    width:100%;
+    z-index:1000;
+
+    backdrop-filter:blur(24px);
+
+    background:rgba(4,5,11,.72);
+
+    border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.nav{
+    max-width:1500px;
+    margin:auto;
+
+    padding:22px 40px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    text-decoration:none;
+    color:white;
+
+    font-family:"Orbitron";
+    font-weight:800;
+    font-size:1rem;
+    letter-spacing:2px;
+}
+
+.links{
+    display:flex;
+    gap:30px;
+}
+
+.links a{
+    text-decoration:none;
+    color:var(--muted);
+    font-size:.85rem;
+    transition:.3s;
+    position:relative;
+}
+
+.links a:hover{
+    color:var(--cyan);
+}
+
+.links a::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:-8px;
+
+    width:0%;
+    height:2px;
+
+    background:var(--cyan);
+
+    transition:.3s;
+}
+
+.links a:hover::after{
+    width:100%;
+}
+
+/* ========================== */
+/* HERO */
+/* ========================== */
+
+.hero{
+    min-height:100vh;
+
+    display:flex;
+    align-items:center;
+
+    padding:120px 40px 60px;
+}
+
+.hero-grid{
+    max-width:1500px;
+    margin:auto;
+    width:100%;
+
+    display:grid;
+    grid-template-columns:1.1fr .9fr;
+    gap:60px;
+    align-items:center;
+}
+
+.hero-left{
+    position:relative;
+    z-index:2;
+}
+
+.hero-tag{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+
+    padding:12px 18px;
+
+    background:rgba(255,255,255,.05);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:999px;
+
+    color:var(--cyan);
+
+    font-size:.75rem;
+
+    margin-bottom:28px;
+
+    backdrop-filter:blur(10px);
+}
+
+.hero-title{
+    font-family:"Orbitron";
+
+    font-size:clamp(3rem,9vw,7rem);
+
+    line-height:.92;
+
+    letter-spacing:-4px;
+
+    margin-bottom:30px;
+
+    background:
+    linear-gradient(
+    90deg,
+    white 0%,
+    #8df8ff 30%,
+    #89a4ff 60%,
+    #d375ff 100%
+    );
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.hero-sub{
+    max-width:720px;
+
+    line-height:1.9;
+
+    color:var(--muted);
+
+    font-size:1.05rem;
+}
+
+.hero-buttons{
+    display:flex;
+    gap:18px;
+    flex-wrap:wrap;
+
+    margin-top:40px;
+}
+
+.btn{
+    padding:18px 28px;
+
+    border-radius:18px;
+
+    border:none;
+
+    cursor:pointer;
+
+    font-weight:700;
+
+    transition:.35s;
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+.btn-primary{
+    background:
+    linear-gradient(135deg,var(--cyan),var(--blue));
+
+    color:#00131b;
+
+    box-shadow:
+    0 0 30px rgba(0,240,255,.3);
+}
+
+.btn-secondary{
+    background:rgba(255,255,255,.05);
+
+    color:white;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    backdrop-filter:blur(10px);
+}
+
+.btn:hover{
+    transform:translateY(-5px) scale(1.03);
+}
+
+/* ========================== */
+/* HUD */
+/* ========================== */
+
+.hero-right{
+    position:relative;
+}
+
+.hud{
+    position:relative;
+
+    border-radius:40px;
+
+    padding:28px;
+
+    background:
+    linear-gradient(
+    180deg,
+    rgba(255,255,255,.08),
+    rgba(255,255,255,.03)
+    );
+
+    border:1px solid rgba(255,255,255,.08);
+
+    backdrop-filter:blur(24px);
+
+    overflow:hidden;
+
+    box-shadow:var(--shadow);
+}
+
+.hud::before{
+    content:"";
+
+    position:absolute;
+    inset:0;
+
+    background:
+    linear-gradient(
+    120deg,
+    transparent 20%,
+    rgba(255,255,255,.06),
+    transparent 80%
+    );
+
+    transform:translateX(-100%);
+
+    animation:shine 6s infinite linear;
+}
+
+@keyframes shine{
+    to{
+        transform:translateX(100%);
+    }
+}
+
+.hud-top{
+    display:flex;
+    justify-content:space-between;
+
+    margin-bottom:22px;
+}
+
+.badge{
+    padding:10px 14px;
+
+    border-radius:14px;
+
+    background:rgba(255,255,255,.05);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    font-size:.7rem;
+
+    color:var(--cyan);
+}
+
+.radar{
+    height:330px;
+
+    border-radius:24px;
+
+    position:relative;
+
+    overflow:hidden;
+
+    background:
+    radial-gradient(circle at center, rgba(0,240,255,.14), transparent 60%),
+    #071221;
+
+    border:1px solid rgba(255,255,255,.06);
+}
+
+.radar::before{
+    content:"";
+
+    position:absolute;
+    inset:-50%;
+
+    background:
+    conic-gradient(
+    transparent,
+    rgba(0,240,255,.35),
+    transparent 35%
+    );
+
+    animation:rotateRadar 4s linear infinite;
+}
+
+@keyframes rotateRadar{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+.radar-grid{
+    position:absolute;
+    inset:0;
+
+    background:
+    linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+
+    background-size:40px 40px;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
+
+    margin-top:24px;
+}
+
+.stat{
+    padding:24px;
+
+    border-radius:24px;
+
+    background:rgba(255,255,255,.04);
+
+    border:1px solid rgba(255,255,255,.06);
+}
+
+.stat h3{
+    font-size:2rem;
+    font-family:"Orbitron";
+
+    color:var(--cyan);
+
+    margin-bottom:10px;
+}
+
+.stat p{
+    color:var(--muted);
+    font-size:.85rem;
+}
+
+/* ========================== */
+/* SECTION */
+/* ========================== */
+
+.section{
+    max-width:1500px;
+    margin:auto;
+
+    padding:120px 40px;
+}
+
+.section-header{
+    display:flex;
+    justify-content:space-between;
+    gap:40px;
+    flex-wrap:wrap;
+
+    margin-bottom:60px;
+}
+
+.section-title{
+    font-family:"Orbitron";
+    font-size:2.7rem;
+}
+
+.section-desc{
+    max-width:650px;
+    color:var(--muted);
+    line-height:1.8;
+}
+
+/* ========================== */
+/* BENTO GRID */
+/* ========================== */
+
+.bento{
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:24px;
+}
+
+.card{
+    position:relative;
+
+    overflow:hidden;
+
+    border-radius:32px;
+
+    background:
+    linear-gradient(
+    180deg,
+    rgba(255,255,255,.08),
+    rgba(255,255,255,.03)
+    );
+
+    border:1px solid rgba(255,255,255,.08);
+
+    padding:30px;
+
+    transition:.45s;
+
+    backdrop-filter:blur(18px);
+}
+
+.card:hover{
+    transform:translateY(-10px);
+
+    border-color:rgba(0,240,255,.3);
+
+    box-shadow:
+    0 20px 60px rgba(0,0,0,.45),
+    0 0 25px rgba(0,240,255,.1);
+}
+
+.large{
+    grid-column:span 2;
+    grid-row:span 2;
+    min-height:580px;
+}
+
+.tall{
+    grid-row:span 2;
+    min-height:580px;
+}
+
+.wide{
+    grid-column:span 2;
+}
+
+.card-tag{
+    font-size:.7rem;
+
+    color:var(--magenta);
+
+    letter-spacing:2px;
+
+    margin-bottom:14px;
+
+    display:block;
+}
+
+.card h3{
+    font-family:"Orbitron";
+    font-size:1.7rem;
+
+    margin-bottom:18px;
+}
+
+.card p{
+    color:var(--muted);
+    line-height:1.8;
+}
+
+.specs{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+
+    margin-top:24px;
+}
+
+.specs span{
+    padding:10px 14px;
+
+    border-radius:999px;
+
+    background:rgba(255,255,255,.05);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    font-size:.72rem;
+}
+
+.sensor{
+    position:absolute;
+    bottom:30px;
+    right:30px;
+    text-align:right;
+}
+
+.sensor h2{
+    color:var(--cyan);
+    font-size:2rem;
+}
+
+/* ========================== */
+/* MUSIC DISC */
+/* ========================== */
+
+.music{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    text-align:center;
+}
+
+.disc{
+    width:140px;
+    height:140px;
+
+    border-radius:50%;
+
+    background:
+    radial-gradient(circle, #333 15%, #000 65%);
+
+    border:5px solid #444;
+
+    animation:spin 4s linear infinite;
+
+    box-shadow:
+    0 0 40px rgba(255,0,255,.15);
+}
+
+/* ========================== */
+/* TERMINAL */
+/* ========================== */
+
+.terminal{
+    margin-top:80px;
+
+    border-radius:34px;
+
+    overflow:hidden;
+
+    background:black;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    box-shadow:var(--shadow);
+}
+
+.term-top{
+    padding:18px 24px;
+
+    background:#090909;
+
+    border-bottom:1px solid rgba(255,255,255,.06);
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.dot{
+    width:12px;
+    height:12px;
+    border-radius:50%;
+}
+
+.red{background:#ff5f56}
+.yellow{background:#ffbd2e}
+.green{background:#27c93f}
+
+.term-body{
+    height:420px;
+
+    overflow-y:auto;
+
+    padding:30px;
+
+    font-family:"JetBrains Mono";
+
+    font-size:.9rem;
+
+    color:#00ff88;
+}
+
+.term-input{
+    padding:20px 24px;
+
+    border-top:1px solid rgba(255,255,255,.06);
+
+    display:flex;
+    gap:14px;
+}
+
+.term-input span{
+    color:var(--cyan);
+}
+
+.term-input input{
+    flex:1;
+
+    background:none;
+
+    border:none;
+
+    outline:none;
+
+    color:white;
+
+    font-family:"JetBrains Mono";
+
+    font-size:1rem;
+}
+
+/* ========================== */
+/* MUN */
+/* ========================== */
+
+.mun{
+    margin-top:80px;
+
+    padding:40px;
+
+    border-radius:30px;
+
+    background:
+    linear-gradient(
+    180deg,
+    rgba(255,255,255,.06),
+    rgba(255,255,255,.03)
+    );
+
+    border:1px solid rgba(255,255,255,.08);
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+.mun::before{
+    content:"";
+
+    position:absolute;
+    top:0;
+    left:0;
+
+    width:4px;
+    height:100%;
+
+    background:
+    linear-gradient(var(--cyan),var(--purple));
+}
+
+/* ========================== */
+/* FOOTER */
+/* ========================== */
+
+footer{
+    padding:100px 40px 60px;
+
+    border-top:1px solid rgba(255,255,255,.06);
+}
+
+.footer{
+    max-width:1500px;
+    margin:auto;
+
+    display:flex;
+    justify-content:space-between;
+    gap:40px;
+    flex-wrap:wrap;
+}
+
+.footer-logo{
+    font-family:"Orbitron";
+    font-size:2rem;
+}
+
+.footer-links{
+    display:flex;
+    gap:30px;
+    flex-wrap:wrap;
+}
+
+.footer-links a{
+    text-decoration:none;
+    color:var(--muted);
+}
+
+/* ========================== */
+/* DOCK */
+/* ========================== */
+
+.dock{
+    position:fixed;
+
+    bottom:24px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    display:flex;
+    gap:16px;
+
+    padding:14px;
+
+    border-radius:24px;
+
+    background:rgba(255,255,255,.05);
+
+    backdrop-filter:blur(24px);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    z-index:9999;
+}
+
+.dock-item{
+    width:52px;
+    height:52px;
+
+    border-radius:16px;
+
+    background:rgba(255,255,255,.05);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.dock-item:hover{
+    transform:translateY(-10px) scale(1.1);
+
+    background:rgba(0,240,255,.15);
+}
+
+/* ========================== */
+/* MOBILE */
+/* ========================== */
+
+@media(max-width:1150px){
+
+    .hero-grid{
+        grid-template-columns:1fr;
+    }
+
+    .bento{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .large,
+    .wide,
+    .tall{
+        grid-column:span 2;
+        grid-row:auto;
+    }
+}
+
+@media(max-width:760px){
+
+    .links{
+        display:none;
+    }
+
+    .hero{
+        padding-top:140px;
+    }
+
+    .bento{
+        grid-template-columns:1fr;
+    }
+
+    .large,
+    .wide,
+    .tall{
+        grid-column:auto;
+    }
+
+    .section{
+        padding:100px 20px;
+    }
+}
+
+/* ========================== */
+/* REVEAL */
+/* ========================== */
+
+.reveal{
+    opacity:0;
+    transform:translateY(50px);
+    transition:1s;
+}
+
+.reveal.active{
+    opacity:1;
+    transform:none;
+}
+
+/* ========================== */
+/* EDITABLE MAKER CSS (INJECTED) */
+/* ========================== */
+
+[contenteditable="true"] {
+    outline: 2px dashed var(--cyan) !important;
+    background: rgba(0, 240, 255, 0.05) !important;
+    cursor: text !important;
+}
+
+#edit-hud {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    z-index: 10001;
+    background: rgba(4, 5, 11, 0.95);
+    border: 1px solid var(--cyan);
+    padding: 20px;
+    border-radius: 20px;
+    display: none;
+    flex-direction: column;
+    gap: 12px;
+    box-shadow: 0 0 30px rgba(0, 240, 255, 0.2);
+    backdrop-filter: blur(10px);
+    width: 220px;
+}
+
+#edit-hud h4 {
+    font-family: "Orbitron";
+    font-size: 0.8rem;
+    color: var(--cyan);
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.edit-btn {
+    padding: 10px;
+    border-radius: 10px;
+    background: var(--glass2);
+    border: 1px solid var(--border);
+    color: white;
+    font-family: "JetBrains Mono";
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: 0.2s;
+    text-align: center;
+}
+
+.edit-btn:hover {
+    background: var(--cyan);
+    color: black;
+}
+
+.edit-btn.active-mode {
+    background: var(--magenta);
+    border-color: var(--magenta);
+}
+
+.add-card-card{
+
+    border:
+    2px dashed
+    rgba(0,240,255,.3);
+
+}
+
+.add-card-card h3{
+
+    color:var(--cyan);
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="cursor"></div>
+<div class="cursor-dot"></div>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+
+<canvas id="bg"></canvas>
+
+<div id="edit-hud">
+    <h4>Admin Control</h4>
+    <div id="toggle-edit" class="edit-btn">Enable Edit Mode</div>
+    <div id="save-layout" class="edit-btn">Export JSON</div>
+    <div id="logout-edit" class="edit-btn">Lock Systems</div>
+</div>
+
+<div id="boot">
+
+    <div class="boot-box">
+
+        <div class="boot-top">
+            QUANTUM_BOOT_SEQUENCE
+        </div>
+
+        <div class="boot-log" id="bootLog"></div>
+
+    </div>
+
+    <div class="boot-footer">
+        AUTHORIZING // SOMANI_REYANSH
+    </div>
+
+</div>
+
+<header>
+
+    <div class="nav">
+
+        <a href="#" class="logo">
+            REYANSH // LABS
+        </a>
+
+        <div class="links">
+            <a href="#projects">Projects</a>
+            <a href="#terminal">mpt-os</a>
+            <a href="#mun">Diplomacy</a>
+        </div>
+
+    </div>
+
+</header>
+
+<section class="hero">
+
+    <div class="hero-grid">
+
+        <div class="hero-left reveal">
+
+            <div class="hero-tag">
+                <span>● ONLINE</span>
+                <span>BUILD 2026.05</span>
+            </div>
+
+            <h1 class="hero-title">
+                BUILDING<br>
+                THE FUTURE
+            </h1>
+
+            <p class="hero-sub">
+                8th-grade embedded systems engineer, robotics builder,
+                UI architect, terminal designer, and experimental developer
+                engineering futuristic hardware ecosystems, autonomous machines,
+                and immersive cybernetic interfaces.
+            </p>
+
+            <div class="hero-buttons">
+
+                <button class="btn btn-primary magnetic">
+                    Launch Systems
+                </button>
+
+                <button class="btn btn-secondary magnetic">
+                    Open mpt-os
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="hero-right reveal">
+
+            <div class="hud">
+
+                <div class="hud-top">
+
+                    <div class="badge">
+                        NODE: PUNE_HQ
+                    </div>
+
+                    <div class="badge">
+                        STATUS: ACTIVE
+                    </div>
+
+                </div>
+
+                <div class="radar">
+                    <div class="radar-grid"></div>
+                </div>
+
+                <div class="stats">
+
+                    <div class="stat">
+                        <h3>14+</h3>
+                        <p>Embedded Projects</p>
+                    </div>
+
+                    <div class="stat">
+                        <h3>78%</h3>
+                        <p>Pune Humidity</p>
+                    </div>
+
+                    <div class="stat">
+                        <h3>4</h3>
+                        <p>Custom Systems</p>
+                    </div>
+
+                    <div class="stat">
+                        <h3>24/7</h3>
+                        <p>Lab Uptime</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section class="section reveal" id="projects">
+
+    <div class="section-header">
+
+        <div>
+            <h2 class="section-title">
+                DEPLOYED SYSTEMS
+            </h2>
+        </div>
+
+        <div class="section-desc">
+            Experimental robotics platforms, embedded firmware systems,
+            futuristic UI architectures, and immersive engineering concepts
+            designed and engineered inside the Reyansh Labs ecosystem.
+        </div>
+
+    </div>
+
+    <div class="bento">
+
+        <div class="card large magnetic">
+
+            <span class="card-tag">
+                ROBOTICS // AI
+            </span>
+
+            <h3>Pioneer Robot</h3>
+
+            <p>
+                Agricultural automation platform powered by the
+                Realtek AMB82-Mini featuring AI-assisted insect detection,
+                telemetry systems, autonomous logic, and modular hardware design.
+            </p>
+
+            <div class="specs">
+
+                <span>SPI DISPLAY</span>
+                <span>AI DETECTION</span>
+                <span>3D PRINTED</span>
+                <span>ESP32</span>
+
+            </div>
+
+            <div class="sensor">
+
+                <small>AMB82_CORE_TEMP</small>
+
+                <h2>38.4°C</h2>
+
+            </div>
+
+        </div>
+
+        <div class="card tall magnetic">
+
+            <span class="card-tag">
+                FIRMWARE
+            </span>
+
+            <h3>EnviroOS</h3>
+
+            <p>
+                Futuristic embedded operating environment
+                for TFT hardware systems featuring atmospheric
+                telemetry and environmental analysis.
+            </p>
+
+            <div style="margin-top:40px;">
+
+                <small style="color:var(--muted)">
+                    LOCAL HUMIDITY
+                </small>
+
+                <h2 style="margin-top:10px;color:var(--cyan)">
+                    78%
+                </h2>
+
+                <div style="
+                width:100%;
+                height:6px;
+                background:#111;
+                border-radius:999px;
+                overflow:hidden;
+                margin-top:16px;
+                ">
+
+                    <div style="
+                    width:78%;
+                    height:100%;
+                    background:linear-gradient(90deg,var(--cyan),var(--blue));
+                    box-shadow:0 0 20px var(--cyan);
+                    "></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card wide magnetic">
+
+            <span class="card-tag">
+                SOFTWARE // SHELL
+            </span>
+
+            <h3>mpt-os</h3>
+
+            <p>
+                Python and JavaScript powered futuristic terminal ecosystem
+                with shell simulation, command architecture,
+                autocomplete concepts, and realistic kernel UX.
+            </p>
+
+        </div>
+
+        <div class="card music magnetic">
+
+            <div class="disc"></div>
+
+            <h3 style="margin-top:22px">
+                RSymphony
+            </h3>
+
+            <span class="card-tag">
+                PHONK // EDM PRODUCTION
+            </span>
+
+        </div>
+
+        <div class="card magnetic">
+
+            <span class="card-tag">
+                EMBEDDED
+            </span>
+
+            <h3>SMART EVM</h3>
+
+            <p>
+                Arduino Uno based electronic voting system
+                with touch-based interfaces and embedded logic.
+            </p>
+
+        </div>
+
+        <div class="card magnetic">
+
+            <span class="card-tag">
+                LINGUISTICS
+            </span>
+
+            <h3>BRAHMI_DEC</h3>
+
+            <p>
+                Ancient script interpretation logic systems
+                for Prakrit translation and pattern decoding.
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="terminal reveal" id="terminal">
+
+        <div class="term-top">
+
+            <div class="dot red"></div>
+            <div class="dot yellow"></div>
+            <div class="dot green"></div>
+
+        </div>
+
+        <div class="term-body" id="termBody">
+
+            Welcome to mpt-os v3.0<br>
+            Type 'help' to see commands.<br><br>
+
+        </div>
+
+        <div class="term-input">
+
+            <span>$</span>
+
+            <input
+            id="termInput"
+            type="text"
+            autocomplete="off"
+            autofocus>
+
+        </div>
+
+    </div>
+
+    <div class="mun reveal" id="mun">
+
+        <span class="card-tag">
+            INTERNATIONAL RELATIONS
+        </span>
+
+        <h2 class="section-title" style="font-size:2rem;margin-top:12px;">
+            STATE OF QATAR // IOM
+        </h2>
+
+        <p style="
+        color:var(--muted);
+        margin-top:20px;
+        line-height:1.9;
+        max-width:900px;
+        ">
+
+            Representing the State of Qatar in the International Organization
+            for Migration with focus on sustainable refugee protection,
+            international cooperation, and humanitarian systems strategy.
+
+        </p>
+
+    </div>
+
+</section>
+
+<footer>
+
+    <div class="footer">
+
+        <div>
+
+            <div class="footer-logo">
+                REYANSH SOMANI
+            </div>
+
+            <p style="
+            margin-top:14px;
+            color:var(--muted);
+            max-width:500px;
+            line-height:1.8;
+            ">
+
+                Robotics systems, embedded engineering,
+                futuristic interface architecture, and experimental innovation.
+
+            </p>
+
+        </div>
+
+        <div class="footer-links">
+
+            <a href="#">GitHub</a>
+            <a href="#">YouTube</a>
+            <a href="#">Instagram</a>
+
+        </div>
+
+    </div>
+
+</footer>
+
+<div class="dock">
+
+    <div class="dock-item">⌘</div>
+    <div class="dock-item">⚡</div>
+    <div class="dock-item">◉</div>
+    <div class="dock-item">⬢</div>
+
+</div>
+
+<script>
+
+/* ========================== */
+/* BOOT */
+/* ========================== */
+
+const bootLines = [
+"INITIALIZING QUANTUM KERNEL...",
+"CONNECTING TO PUNE_NODE_01...",
+"LOADING PIONEER_AI_MODULE...",
+"BOOTING ENVIROOS_GRAPHICAL_LAYER...",
+"STARTING RSYMPHONY_AUDIO_ENGINE...",
+"CONNECTING EMBEDDED NETWORK...",
+"mpt-os SHELL ACTIVE...",
+"ACCESS GRANTED // REYANSH SOMANI"
+];
+
+const bootLog = document.getElementById("bootLog");
+
+let bootIndex = 0;
+
+function typeBoot(){
+
+    if(bootIndex < bootLines.length){
+
+        bootLog.innerHTML += `> ${bootLines[bootIndex]}<br>`;
+
+        bootIndex++;
+
+        setTimeout(typeBoot,300);
+
+    }else{
+
+        setTimeout(()=>{
+
+            const boot = document.getElementById("boot");
+
+            boot.style.transition = "1s";
+            boot.style.opacity = "0";
+
+            setTimeout(()=>{
+                boot.remove();
+            },1000);
+
+        },900);
+
+    }
+
+}
+
+typeBoot();
+
+/* ========================== */
+/* PARTICLES */
+/* ========================== */
+
+const canvas = document.getElementById("bg");
+const ctx = canvas.getContext("2d");
+
+let particles = [];
+
+function resize(){
+
+    canvas.width = innerWidth;
+    canvas.height = innerHeight;
+}
+
+resize();
+
+window.addEventListener("resize",resize);
+
+for(let i=0;i<120;i++){
+
+    particles.push({
+
+        x:Math.random()*innerWidth,
+        y:Math.random()*innerHeight,
+
+        vx:(Math.random()-.5)*0.6,
+        vy:(Math.random()-.5)*0.6,
+
+        size:Math.random()*2
+
+    });
+
+}
+
+function animate(){
+
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    particles.forEach((p,i)=>{
+
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if(p.x < 0 || p.x > innerWidth) p.vx *= -1;
+        if(p.y < 0 || p.y > innerHeight) p.vy *= -1;
+
+        ctx.beginPath();
+
+        ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+
+        ctx.fillStyle = "rgba(0,240,255,.8)";
+
+        ctx.fill();
+
+        particles.forEach((p2,j)=>{
+
+            if(i===j) return;
+
+            const dist = Math.hypot(p.x-p2.x,p.y-p2.y);
+
+            if(dist < 140){
+
+                ctx.beginPath();
+
+                ctx.moveTo(p.x,p.y);
+                ctx.lineTo(p2.x,p2.y);
+
+                ctx.strokeStyle =
+                `rgba(0,240,255,${1-dist/140})`;
+
+                ctx.lineWidth = .4;
+
+                ctx.stroke();
+
+            }
+
+        });
+
+    });
+
+    requestAnimationFrame(animate);
+
+}
+
+animate();
+
+/* ========================== */
+/* REVEAL */
+/* ========================== */
+
+const observer = new IntersectionObserver(entries=>{
+
+    entries.forEach(entry=>{
+
+        if(entry.isIntersecting){
+
+            entry.target.classList.add("active");
+
+        }
+
+    });
+
+},{
+    threshold:.15
+});
+
+document.querySelectorAll(".reveal").forEach(el=>{
+
+    observer.observe(el);
+
+});
+
+/* ========================== */
+/* CURSOR */
+/* ========================== */
+
+const cursor = document.querySelector(".cursor");
+const dot = document.querySelector(".cursor-dot");
+
+window.addEventListener("mousemove",(e)=>{
+
+    cursor.style.left = e.clientX + "px";
+    cursor.style.top = e.clientY + "px";
+
+    dot.style.left = e.clientX + "px";
+    dot.style.top = e.clientY + "px";
+
+});
+
+/* ========================== */
+/* MAGNETIC */
+/* ========================== */
+
+document.querySelectorAll(".magnetic").forEach(el=>{
+
+    el.addEventListener("mousemove",(e)=>{
+
+        const rect = el.getBoundingClientRect();
+
+        const x = e.clientX - rect.left - rect.width/2;
+        const y = e.clientY - rect.top - rect.height/2;
+
+        el.style.transform =
+        `translate(${x*.08}px,${y*.08}px) translateY(-8px)`;
+
+    });
+
+    el.addEventListener("mouseleave",()=>{
+
+        el.style.transform = "";
+
+    });
+
+});
+
+/* ========================== */
+/* TERMINAL */
+/* ========================== */
+
+const termInput = document.getElementById("termInput");
+const termBody = document.getElementById("termBody");
+
+const commands = {
+
+help:
+"Available: help, status, projects, bio, humidity, clear",
+
+status:
+"System online | Node: Pune | Humidity: 78% | mpt-os v3.0",
+
+projects:
+"Projects: Pioneer, EnviroOS, SmartEVM, RSymphony, BRAHMI_DEC",
+
+bio:
+"Reyansh Somani: Embedded engineer, robotics builder, MUN delegate.",
+
+humidity:
+"Pune humidity currently at 78%",
+
+clear:
+""
+
+};
+
+termInput.addEventListener("keypress",(e)=>{
+
+    if(e.key === "Enter"){
+
+        const cmd =
+        termInput.value.toLowerCase().trim();
+
+        termBody.innerHTML +=
+        `<div style="color:white">$ ${cmd}</div>`;
+
+        if(cmd === "clear"){
+
+            termBody.innerHTML = "";
+
+        }else if(commands[cmd]){
+
+            termBody.innerHTML +=
+            `<div>${commands[cmd]}</div><br>`;
+
+        }else{
+
+            termBody.innerHTML +=
+            `<div style="color:red">Command not found.</div><br>`;
+
+        }
+
+        termInput.value = "";
+
+        termBody.scrollTop =
+        termBody.scrollHeight;
+
+    }
+
+});
+
+/* ========================== */
+/* PARALLAX */
+/* ========================== */
+
+window.addEventListener("mousemove",(e)=>{
+
+    const x =
+    (e.clientX / innerWidth - .5) * 20;
+
+    const y =
+    (e.clientY / innerHeight - .5) * 20;
+
+    document.querySelectorAll(".orb").forEach((orb,index)=>{
+
+        orb.style.transform =
+        `translate(${x*(index+1)}px,${y*(index+1)}px)`;
+
+    });
+
+});
+
+/* ========================== */
+/* COUNTERS */
+/* ========================== */
+
+document.querySelectorAll(".stat h3").forEach(counter=>{
+
+    const final = counter.innerText;
+
+    const num = parseInt(final);
+
+    if(!isNaN(num)){
+
+        let current = 0;
+
+        const interval = setInterval(()=>{
+
+            current++;
+
+            counter.innerText =
+            current + final.replace(/[0-9]/g,'');
+
+            if(current >= num){
+
+                clearInterval(interval);
+
+            }
+
+        },40);
+
+    }
+
+});
+
+/* ========================== */
+/* COMMAND PALETTE */
+/* ========================== */
+
+document.addEventListener("keydown",(e)=>{
+
+    if(e.key === "k" && (e.ctrlKey || e.metaKey)){
+
+        e.preventDefault();
+
+        alert(
+`mpt-os COMMAND PALETTE
+
+AVAILABLE:
+- OPEN PROJECTS
+- CONNECT TELEMETRY
+- INITIALIZE AI
+- ENTER IMMERSIVE MODE
+- START RSYMPHONY`
+        );
+
+    }
+
+});
+
+/* ========================== */
+/* PAGE EDITABLE MAKER LOGIC */
+/* ========================== */
+
+/* ========================== */
+/* PAGE EDITABLE MAKER v2.0 */
+/* FULL CONFIG ENGINE */
+/* ========================== */
+
+let CONFIG = null;
+let EDIT_MODE = false;
+
+/* ========================== */
+/* CONFIG LOADER */
+/* ========================== */
+
+async function loadConfig(){
+
+    try{
+
+        const response =
+        await fetch("./config.json");
+
+        CONFIG =
+        await response.json();
+
+        applyConfig();
+
+    }catch(err){
+
+        console.error(err);
+
+        alert("CONFIG LOAD FAILED");
+
+    }
+
+}
+
+loadConfig();
+
+/* ========================== */
+/* APPLY CONFIG */
+/* ========================== */
+
+function applyConfig(){
+
+    /* ========================== */
+    /* SITE */
+    /* ========================== */
+
+    document.title =
+    CONFIG.site.title;
+
+    document.querySelector(".logo").innerHTML =
+    CONFIG.site.logo;
+
+    /* ========================== */
+    /* HERO */
+    /* ========================== */
+
+    const heroTag =
+    document.querySelector(".hero-tag");
+
+    heroTag.innerHTML =
+    `
+    <span
+    data-edit="hero.status">
+        ${CONFIG.hero.status}
+    </span>
+
+    <span
+    data-edit="hero.build">
+        ${CONFIG.hero.build}
+    </span>
+    `;
+
+    document.querySelector(".hero-title")
+    .innerHTML =
+    CONFIG.hero.title;
+
+    document.querySelector(".hero-title")
+    .setAttribute(
+        "data-edit",
+        "hero.title"
+    );
+
+    document.querySelector(".hero-sub")
+    .innerHTML =
+    CONFIG.hero.subtitle;
+
+    document.querySelector(".hero-sub")
+    .setAttribute(
+        "data-edit",
+        "hero.subtitle"
+    );
+
+    const heroButtons =
+    document.querySelector(".hero-buttons");
+
+    heroButtons.innerHTML = "";
+
+    CONFIG.hero.buttons.forEach((btn,index)=>{
+
+        heroButtons.innerHTML +=
+        `
+        <a href="${btn.link}">
+            <button
+            class="btn ${
+                index === 0
+                ? "btn-primary"
+                : "btn-secondary"
+            } magnetic"
+
+            data-edit="hero.buttons.${index}.text"
+
+            data-link="hero.buttons.${index}.link">
+
+                ${btn.text}
+
+            </button>
+        </a>
+        `;
+
+    });
+
+    /* ========================== */
+    /* HUD */
+    /* ========================== */
+
+    const badges =
+    document.querySelectorAll(".badge");
+
+    badges[0].innerHTML =
+    CONFIG.hud.node;
+
+    badges[1].innerHTML =
+    CONFIG.hud.status;
+
+    badges[0].setAttribute(
+        "data-edit",
+        "hud.node"
+    );
+
+    badges[1].setAttribute(
+        "data-edit",
+        "hud.status"
+    );
+
+    const stats =
+    document.querySelector(".stats");
+
+    stats.innerHTML = "";
+
+    CONFIG.hud.stats.forEach((stat,index)=>{
+
+        stats.innerHTML +=
+        `
+        <div class="stat">
+
+            <h3
+            data-edit="hud.stats.${index}.value">
+                ${stat.value}
+            </h3>
+
+            <p
+            data-edit="hud.stats.${index}.label">
+                ${stat.label}
+            </p>
+
+        </div>
+        `;
+
+    });
+
+    /* ========================== */
+    /* PROJECTS */
+    /* ========================== */
+
+    document.querySelector(
+        "#projects .section-title"
+    ).innerHTML =
+    CONFIG.projects.title;
+
+    document.querySelector(
+        "#projects .section-desc"
+    ).innerHTML =
+    CONFIG.projects.description;
+
+    const bento =
+    document.querySelector(".bento");
+
+    bento.innerHTML = "";
+
+    CONFIG.projects.cards.forEach((card,index)=>{
+
+        let specsHTML = "";
+
+        if(card.specs){
+
+            specsHTML =
+            `
+            <div class="specs">
+
+                ${
+                    card.specs.map((spec,sIndex)=>`
+
+                    <span
+                    data-edit="projects.cards.${index}.specs.${sIndex}">
+                        ${spec}
+                    </span>
+
+                    `).join("")
+                }
+
+            </div>
+            `;
+        }
+
+        let extraHTML = "";
+
+        if(card.type === "large"){
+
+            extraHTML =
+            `
+            <div class="sensor">
+
+                <small
+                data-edit="projects.cards.${index}.sensorLabel">
+                    ${card.sensorLabel}
+                </small>
+
+                <h2
+                data-edit="projects.cards.${index}.sensorValue">
+                    ${card.sensorValue}
+                </h2>
+
+            </div>
+            `;
+        }
+
+        if(card.type === "music"){
+
+            extraHTML =
+            `
+            <div class="disc"></div>
+            `;
+        }
+
+        if(card.type === "tall"){
+
+            extraHTML =
+            `
+            <div style="margin-top:40px;">
+
+                <small style="color:var(--muted)">
+                    LOCAL HUMIDITY
+                </small>
+
+                <h2 style="
+                margin-top:10px;
+                color:var(--cyan)">
+                    ${card.humidity}
+                </h2>
+
+            </div>
+            `;
+        }
+
+        bento.innerHTML +=
+        `
+        <div
+        class="card ${card.type} magnetic editable-card"
+
+        data-card-index="${index}">
+
+            <button
+            class="delete-card">
+                ×
+            </button>
+
+            ${extraHTML}
+
+            <span
+            class="card-tag"
+
+            data-edit="projects.cards.${index}.tag">
+
+                ${card.tag}
+
+            </span>
+
+            <h3
+            data-edit="projects.cards.${index}.title">
+
+                ${card.title}
+
+            </h3>
+
+            ${
+                card.description
+                ?
+                `
+                <p
+                data-edit="projects.cards.${index}.description">
+
+                    ${card.description}
+
+                </p>
+                `
+                :
+                ""
+            }
+
+            ${specsHTML}
+
+        </div>
+        `;
+
+    });
+
+    /* ========================== */
+/* HUD ONLY ADD CARD */
+/* ========================== */
+
+if(EDIT_MODE){
+
+    bento.innerHTML +=
+    `
+    <div class="card add-card-card magnetic">
+
+        <h3>＋ Add Project</h3>
+
+        <p>
+            Dynamically create a new project card.
+        </p>
+
+    </div>
+    `;
+
+}
+
+    
+
+    /* ========================== */
+    /* TERMINAL */
+    /* ========================== */
+
+    const termBody =
+    document.getElementById("termBody");
+
+    termBody.innerHTML =
+    CONFIG.terminal.welcome.join("<br>")
+    + "<br><br>";
+
+    /* ========================== */
+    /* COMMANDS */
+    /* ========================== */
+
+    Object.keys(commands).forEach(key=>{
+
+        if(CONFIG.terminal.commands[key]){
+
+            commands[key] =
+            CONFIG.terminal.commands[key];
+
+        }
+
+    });
+
+    /* ========================== */
+    /* MUN */
+    /* ========================== */
+
+    document.querySelector(
+        "#mun .card-tag"
+    ).innerHTML =
+    CONFIG.mun.tag;
+
+    document.querySelector(
+        "#mun .section-title"
+    ).innerHTML =
+    CONFIG.mun.title;
+
+    document.querySelector(
+        "#mun p"
+    ).innerHTML =
+    CONFIG.mun.description;
+
+    document.querySelector(
+        "#mun .card-tag"
+    ).setAttribute(
+        "data-edit",
+        "mun.tag"
+    );
+
+    document.querySelector(
+        "#mun .section-title"
+    ).setAttribute(
+        "data-edit",
+        "mun.title"
+    );
+
+    document.querySelector(
+        "#mun p"
+    ).setAttribute(
+        "data-edit",
+        "mun.description"
+    );
+
+    /* ========================== */
+    /* FOOTER */
+    /* ========================== */
+
+    document.querySelector(
+        ".footer-logo"
+    ).innerHTML =
+    CONFIG.footer.title;
+
+    document.querySelector(
+        ".footer-logo"
+    ).setAttribute(
+        "data-edit",
+        "footer.title"
+    );
+
+    document.querySelector(
+        "footer p"
+    ).innerHTML =
+    CONFIG.footer.description;
+
+    document.querySelector(
+        "footer p"
+    ).setAttribute(
+        "data-edit",
+        "footer.description"
+    );
+
+    const footerLinks =
+    document.querySelector(
+        ".footer-links"
+    );
+
+    footerLinks.innerHTML = "";
+
+    CONFIG.footer.links.forEach((link,index)=>{
+
+        footerLinks.innerHTML +=
+        `
+        <a
+        href="${link.url}"
+
+        data-edit="footer.links.${index}.text"
+
+        data-link="footer.links.${index}.url">
+
+            ${link.text}
+
+        </a>
+        `;
+
+    });
+
+    initializeEditableSystem();
+    initializeMagneticSystem();
+
+}
+
+/* ========================== */
+/* PATH ENGINE */
+/* ========================== */
+
+function setByPath(obj,path,value){
+
+    const keys =
+    path.split(".");
+
+    let current = obj;
+
+    for(let i=0;i<keys.length-1;i++){
+
+        current =
+        current[keys[i]];
+
+    }
+
+    current[
+        keys[keys.length-1]
+    ] = value;
+
+}
+
+/* ========================== */
+/* EDITABLE INIT */
+/* ========================== */
+
+function initializeEditableSystem(){
+
+    const editables =
+    document.querySelectorAll(
+        "[data-edit]"
+    );
+
+    editables.forEach(el=>{
+
+        el.contentEditable =
+        EDIT_MODE;
+
+        el.addEventListener("input",()=>{
+
+            const path =
+            el.dataset.edit;
+
+            setByPath(
+                CONFIG,
+                path,
+                el.innerHTML
+            );
+
+        });
+
+        /* ========================== */
+        /* LINK EDITING */
+        /* ========================== */
+
+        if(el.dataset.link){
+
+            el.addEventListener(
+                "dblclick",
+                ()=>{
+
+                    if(!EDIT_MODE) return;
+
+                    const newLink =
+                    prompt(
+                        "Enter new URL",
+                        el.getAttribute("href")
+                    );
+
+                    if(newLink){
+
+                        el.setAttribute(
+                            "href",
+                            newLink
+                        );
+
+                        setByPath(
+                            CONFIG,
+                            el.dataset.link,
+                            newLink
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+
+    });
+
+}
+
+/* ========================== */
+/* MAGNETIC REINIT */
+/* ========================== */
+
+function initializeMagneticSystem(){
+
+    document
+    .querySelectorAll(".magnetic")
+    .forEach(el=>{
+
+        el.addEventListener(
+            "mousemove",
+            (e)=>{
+
+                const rect =
+                el.getBoundingClientRect();
+
+                const x =
+                e.clientX -
+                rect.left -
+                rect.width/2;
+
+                const y =
+                e.clientY -
+                rect.top -
+                rect.height/2;
+
+                el.style.transform =
+                `translate(${x*.08}px,${y*.08}px) translateY(-8px)`;
+
+            }
+        );
+
+        el.addEventListener(
+            "mouseleave",
+            ()=>{
+
+                el.style.transform = "";
+
+            }
+        );
+
+    });
+
+}
+
+/* ========================== */
+/* EDIT HUD */
+/* ========================== */
+
+const editHUD =
+document.getElementById("edit-hud");
+
+editHUD.innerHTML =
+`
+<h4>Admin Control</h4>
+
+<div
+id="toggle-edit"
+class="edit-btn">
+
+    Enable Edit Mode
+
+</div>
+
+<div
+id="save-layout"
+class="edit-btn">
+
+    Export JSON
+
+</div>
+
+<div
+id="add-card"
+class="edit-btn">
+
+    Add Card
+
+</div>
+
+<div
+id="logout-edit"
+class="edit-btn">
+
+    Lock Systems
+
+</div>
+`;
+
+/* ========================== */
+/* SECRET OPEN */
+/* ========================== */
+
+const ADMIN_PASSKEY =
+"REYANSH_ADMIN_2026";
+
+window.addEventListener(
+    "keydown",
+    (e)=>{
+
+        if(
+            e.ctrlKey &&
+            e.shiftKey &&
+            e.key.toLowerCase() === "e"
+        ){
+
+            e.preventDefault();
+
+            const pass =
+            prompt(
+                "QUANTUM AUTH REQUIRED"
+            );
+
+            if(
+                pass === ADMIN_PASSKEY
+            ){
+
+                editHUD.style.display =
+                "flex";
+
+                alert(
+                    "ACCESS GRANTED"
+                );
+
+            }else{
+
+                alert(
+                    "ACCESS DENIED"
+                );
+
+            }
+
+        }
+
+    }
+);
+
+/* ========================== */
+/* TOGGLE EDIT */
+/* ========================== */
+
+document.addEventListener(
+    "click",
+    (e)=>{
+
+        if(
+            e.target.id ===
+            "toggle-edit"
+        ){
+
+            EDIT_MODE =
+            !EDIT_MODE;
+
+            document.body.classList.toggle(
+                "editing",
+                EDIT_MODE
+            );
+
+            e.target.innerHTML =
+            EDIT_MODE
+            ?
+            "Disable Edit Mode"
+            :
+            "Enable Edit Mode";
+
+            initializeEditableSystem();
+
+        }
+
+    }
+);
+
+/* ========================== */
+/* EXPORT JSON */
+/* ========================== */
+
+document.addEventListener(
+    "click",
+    (e)=>{
+
+        if(
+            e.target.id ===
+            "save-layout"
+        ){
+
+            const blob =
+            new Blob(
+
+                [
+                    JSON.stringify(
+                        CONFIG,
+                        null,
+                        4
+                    )
+                ],
+
+                {
+                    type:
+                    "application/json"
+                }
+
+            );
+
+            const a =
+            document.createElement("a");
+
+            a.href =
+            URL.createObjectURL(blob);
+
+            a.download =
+            "config.json";
+
+            a.click();
+
+        }
+
+    }
+);
+
+/* ========================== */
+/* ADD CARD */
+/* ========================== */
+
+/* ========================== */
+/* ADD CARD WITH TYPES */
+/* ========================== */
+
+document.addEventListener(
+    "click",
+    (e)=>{
+
+        if(
+            e.target.id === "add-card"
+            ||
+            e.target.closest(".add-card-card")
+        ){
+
+            const type =
+            prompt(
+
+`CARD TYPES:
+
+normal
+large
+wide
+tall
+music
+
+Enter type:`
+
+            );
+
+            if(!type) return;
+
+            const cleanType =
+            type.toLowerCase().trim();
+
+            let newCard = {
+
+                type:cleanType,
+
+                tag:"NEW PROJECT",
+
+                title:"Untitled Project"
+
+            };
+
+            /* ========================== */
+            /* TYPE TEMPLATES */
+            /* ========================== */
+
+            if(
+                cleanType === "large"
+            ){
+
+                newCard.description =
+                "Large project description.";
+
+                newCard.specs = [
+
+                    "NEW SPEC",
+                    "NEW SPEC"
+
+                ];
+
+                newCard.sensorLabel =
+                "SYSTEM_TEMP";
+
+                newCard.sensorValue =
+                "42°C";
+
+            }
+
+            else if(
+                cleanType === "tall"
+            ){
+
+                newCard.description =
+                "Tall project description.";
+
+                newCard.humidity =
+                "65%";
+
+            }
+
+            else if(
+                cleanType === "music"
+            ){
+
+                newCard.tag =
+                "MUSIC";
+
+            }
+
+            else{
+
+                newCard.description =
+                "Project description.";
+
+            }
+
+            CONFIG.projects.cards.push(
+                newCard
+            );
+
+            applyConfig();
+
+        }
+
+    }
+);
+
+/* ========================== */
+/* DELETE CARD */
+/* ========================== */
+
+document.addEventListener(
+    "click",
+    (e)=>{
+
+        if(
+            e.target.classList.contains(
+                "delete-card"
+            )
+        ){
+
+            const card =
+            e.target.closest(
+                ".editable-card"
+            );
+
+            const index =
+            parseInt(
+                card.dataset.cardIndex
+            );
+
+            CONFIG.projects.cards.splice(
+                index,
+                1
+            );
+
+            applyConfig();
+
+        }
+
+    }
+);
+
+/* ========================== */
+/* LOCK */
+/* ========================== */
+
+document.addEventListener(
+    "click",
+    (e)=>{
+
+        if(
+            e.target.id ===
+            "logout-edit"
+        ){
+
+            EDIT_MODE = false;
+
+            document.body.classList.remove(
+                "editing"
+            );
+
+            editHUD.style.display =
+            "none";
+
+            initializeEditableSystem();
+
+        }
+
+    }
+);
+
+/* ========================== */
+/* STYLE INJECTION */
+/* ========================== */
+
+const injectedStyle =
+document.createElement("style");
+
+injectedStyle.innerHTML =
+`
+
+.editing [data-edit]{
+
+    outline:
+    2px dashed var(--cyan);
+
+    background:
+    rgba(0,240,255,.05);
+
+    border-radius:8px;
+
+    padding:4px;
+
+    min-width:20px;
+
+}
+
+.delete-card{
+
+    position:absolute;
+
+    top:16px;
+    right:16px;
+
+    width:34px;
+    height:34px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:
+    rgba(255,0,80,.18);
+
+    color:white;
+
+    font-size:1rem;
+
+    cursor:pointer;
+
+    display:none;
+
+    z-index:5;
+}
+
+.editing .delete-card{
+
+    display:block;
+
+}
+
+.add-card-card{
+
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+
+    flex-direction:column;
+
+    cursor:pointer;
+
+    min-height:260px;
+}
+
+.add-card-card:hover{
+
+    border-color:
+    rgba(0,240,255,.4);
+
+}
+
+`;
+
+document.head.appendChild(
+    injectedStyle
+);
+</script>
+
+</body>
+</html>

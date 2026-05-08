@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nihit Taparia | Robotics Lab v2.0</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=JetBrains+Mono:wght@300;500;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-blue: #00f3ff;
+            --neon-purple: #bc13fe;
+            --neon-pink: #ff0055;
+            --bg-dark: #08080c;
+            --card-bg: rgba(17, 17, 20, 0.9);
+            --text-gray: #a0a0a0;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border-glow: rgba(0, 243, 255, 0.3);
+        }
+
+        * { 
+            box-sizing: border-box; 
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #e0e0e0;
+            font-family: 'JetBrains Mono', monospace;
+            margin: 0;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- CRT SCANLINE EFFECT --- */
+        body::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 9999;
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+        }
+
+        /* --- BACKGROUND CANVAS --- */
+        #canvas-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.4;
+        }
+
+        /* --- STARTUP SCREEN --- */
+        #startup {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease;
+        }
+
+        .loader-ring {
+            width: 80px;
+            height: 80px;
+            border: 2px solid transparent;
+            border-top: 2px solid var(--neon-blue);
+            border-bottom: 2px solid var(--neon-purple);
+            border-radius: 50%;
+            animation: spin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+        }
+
+        .loader-text {
+            color: var(--neon-blue);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            margin-top: 30px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            background: rgba(8, 8, 12, 0.8);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid var(--glass);
+        }
+
+        .nav-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            color: var(--neon-blue);
+            text-decoration: none;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-gray);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+        .nav-links a:hover { color: var(--neon-blue); text-shadow: 0 0 8px var(--neon-blue); }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            background: radial-gradient(circle at center, rgba(0, 243, 255, 0.05) 0%, transparent 70%);
+        }
+
+        .hero-tag {
+            color: var(--neon-purple);
+            font-size: 0.9rem;
+            letter-spacing: 8px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2.5rem, 10vw, 5rem);
+            margin: 0;
+            background: linear-gradient(to right, #fff 20%, var(--neon-blue) 50%, var(--neon-purple) 80%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(0, 243, 255, 0.3));
+        }
+
+        .typewriter {
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            margin-top: 20px;
+            border-right: 2px solid var(--neon-blue);
+            white-space: nowrap;
+            overflow: hidden;
+            width: 0;
+            animation: typing 3.5s steps(40, end) forwards, blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing { from { width: 0 } to { width: 100% } }
+        @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: var(--neon-blue) } }
+
+        /* --- MAIN CONTENT --- */
+        .container { max-width: 1200px; margin: 0 auto; padding: 100px 20px; }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 60px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .section-title::after {
+            content: "";
+            flex-grow: 1;
+            height: 1px;
+            background: linear-gradient(to right, var(--neon-blue), transparent);
+        }
+
+        /* --- PROJECT CARDS --- */
+        .project-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 4px; /* Industrial sharp edges */
+            margin-bottom: 100px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 20px 20px 60px rgba(0,0,0,0.5);
+        }
+
+        .project-card:nth-child(even) { direction: rtl; }
+        .project-card:nth-child(even) .card-content { direction: ltr; }
+
+        .card-image-wrapper {
+            position: relative;
+            height: 500px;
+            overflow: hidden;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            transition: 1s transform ease;
+        }
+
+        .project-card:hover .card-image { transform: scale(1.1); }
+
+        .image-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, rgba(0, 243, 255, 0.2), transparent);
+            mix-blend-mode: overlay;
+        }
+
+        .card-content {
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h2 { 
+            font-family: 'Orbitron', sans-serif; 
+            color: #fff; 
+            font-size: 2.2rem; 
+            margin: 0 0 20px 0;
+            letter-spacing: -1px;
+        }
+
+        .project-desc {
+            color: var(--text-gray);
+            font-size: 1rem;
+            margin-bottom: 30px;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .spec-box {
+            padding: 15px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-left: 3px solid var(--neon-blue);
+        }
+
+        .spec-box span { 
+            color: var(--neon-blue); 
+            font-size: 0.65rem; 
+            display: block; 
+            margin-bottom: 5px; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .spec-box b { font-size: 0.9rem; font-weight: 500; color: #fff; }
+
+        /* --- TECH ARSENAL (SKILLS) --- */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .skill-node {
+            background: var(--glass);
+            padding: 25px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.3s;
+        }
+
+        .skill-node:hover {
+            border-color: var(--neon-purple);
+            background: rgba(188, 19, 254, 0.05);
+            transform: translateY(-5px);
+        }
+
+        .skill-node i {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 0.7rem;
+            color: var(--neon-purple);
+        }
+
+        /* --- CONTACT TERMINAL --- */
+        .terminal {
+            background: #000;
+            border: 1px solid #333;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+        }
+
+        .terminal-header {
+            background: #1a1a1a;
+            padding: 10px 20px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .red { background: #ff5f56; }
+        .yellow { background: #ffbd2e; }
+        .green { background: #27c93f; }
+
+        .terminal-body {
+            padding: 30px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .terminal-row { margin-bottom: 15px; }
+        .prompt { color: var(--neon-blue); margin-right: 10px; }
+        .input-line { background: transparent; border: none; color: #fff; font-family: inherit; font-size: 1rem; width: 70%; outline: none; }
+
+        /* --- FOOTER --- */
+        footer {
+            padding: 80px 20px;
+            background: #050508;
+            border-top: 1px solid var(--glass);
+            text-align: center;
+        }
+
+        .footer-logo { font-family: 'Orbitron', sans-serif; font-size: 1.5rem; color: #333; margin-bottom: 20px; }
+        .footer-links { display: flex; justify-content: center; gap: 40px; margin-bottom: 40px; }
+        .footer-links a { color: var(--text-gray); text-decoration: none; font-size: 0.8rem; }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 968px) {
+            .project-card { grid-template-columns: 1fr; }
+            .project-card:nth-child(even) { direction: ltr; }
+            .card-image-wrapper { height: 300px; }
+            .nav-links { display: none; }
+            nav { padding: 20px; }
+        }
+
+        /* Animations */
+        .reveal { opacity: 0; transform: translateY(30px); transition: 1s all ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+       
+        /* Style for the terminal submit button */
+.terminal-submit {
+    background: transparent;
+    border: 1px solid var(--neon-blue);
+    color: var(--neon-blue);
+    font-family: 'JetBrains Mono', monospace;
+    padding: 5px 15px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 0.8rem;
+}
+
+.terminal-submit:hover {
+    background: var(--neon-blue);
+    color: #000;
+    box-shadow: 0 0 15px var(--neon-blue);
+}
+
+/* Ensure inputs take up enough space */
+.input-line {
+    width: 60%;
+}
+
+/* Style for focus to keep it 'cyber' */
+.input-line:focus {
+    color: var(--neon-blue);
+    text-shadow: 0 0 5px var(--neon-blue);
+}
+    </style>
+</head>
+<body>
+
+    <canvas id="canvas-bg"></canvas>
+
+    <!-- Preloader -->
+    <div id="startup">
+        <div class="loader-ring"></div>
+        <div class="loader-text" id="loading-msg">MAPPING NEURAL NETWORK...</div>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="#" class="nav-logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--neon-blue)"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            NT_LABS
+        </a>
+        <div class="nav-links">
+            <a href="#projects">Hardware</a>
+            <a href="#arsenal">Arsenal</a>
+            <a href="#terminal">Terminal</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <span class="hero-tag">ESTABLISHED 2026</span>
+        <h1>NIHIT TAPARIA</h1>
+        <div class="typewriter">ROBOTICS ARCHITECT & EMBEDDED SYSTEMS ENGINEER</div>
+        <div style="margin-top: 40px;">
+            <div style="display: flex; gap: 20px; font-size: 0.7rem; color: var(--neon-blue);">
+                <span>[ CORE: ARDUINO UNO R3 ]</span>
+                <span>[ STATUS: OPERATIONAL ]</span>
+                <span>[ LOCATION: PUNE_NODE_01 ]</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        
+        <!-- Projects Section -->
+        <section id="projects">
+            <h2 class="section-title">DEPLOYED PROJECTS</h2>
+
+            <!-- Project 1 -->
+            <div class="project-card reveal">
+                <div class="card-image-wrapper">
+                    <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&q=80&w=1000');"></div>
+                    <div class="image-overlay"></div>
+                </div>
+                <div class="card-content">
+                    <div style="color: var(--neon-purple); font-size: 0.7rem; margin-bottom: 10px;">ID: ARC_01_PROTOTYPE</div>
+                    <h2>Advanced Robotic Carrier</h2>
+                    <p class="project-desc">A heavy-duty mobile platform designed for precision navigation. Utilizes a customized L298N drive stack to handle varied terrain while maintaining a low-latency Bluetooth link for real-time telemetry.</p>
+                    <div class="specs-grid">
+                        <div class="spec-box"><span>MCU</span><b>ATMega328P</b></div>
+                        <div class="spec-box"><span>Power</span><b>7.4V Li-ion Stack</b></div>
+                        <div class="spec-box"><span>Comm</span><b>HC-05 Wireless</b></div>
+                        <div class="spec-box"><span>Visuals</span><b>I2C LCD 16x2</b></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="project-card reveal">
+                <div class="card-image-wrapper">
+                    <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1555664424-778a1e5e1b48?auto=format&fit=crop&q=80&w=1000');"></div>
+                    <div class="image-overlay"></div>
+                </div>
+                <div class="card-content">
+                    <div style="color: var(--neon-purple); font-size: 0.7rem; margin-bottom: 10px;">ID: SENT_02_SENTRY</div>
+                    <h2>Sentry Turret System</h2>
+                    <p class="project-desc">Automated defense simulation featuring a sub-second response time. Employs pulse-width modulation for smooth servo tracking and a high-focus laser targeting array.</p>
+                    <div class="specs-grid">
+                        <div class="spec-box"><span>Servo</span><b>SG90 (1.8kg Torque)</b></div>
+                        <div class="spec-box"><span>Trigger</span><b>Tactile Matrix</b></div>
+                        <div class="spec-box"><span>Optics</span><b>650nm Laser Node</b></div>
+                        <div class="spec-box"><span>Grade</span><b>Industrial V6-B</b></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Arsenal Section -->
+        <section id="arsenal" style="margin-top: 100px;">
+            <h2 class="section-title">TECHNICAL ARSENAL</h2>
+            <div class="skills-grid">
+                <div class="skill-node reveal">
+                    <i>// PROTOCOL</i>
+                    <b>C++ / ARDUINO</b>
+                </div>
+                <div class="skill-node reveal">
+                    <i>// LOGIC</i>
+                    <b>PYTHON</b>
+                </div>
+                <div class="skill-node reveal">
+                    <i>// CIRCUIT</i>
+                    <b>PCB DESIGN</b>
+                </div>
+                <div class="skill-node reveal">
+                    <i>// POWER</i>
+                    <b>BATTERY MGMT</b>
+                </div>
+                <div class="skill-node reveal">
+                    <i>// WIRELESS</i>
+                    <b>RF / BLUETOOTH</b>
+                </div>
+                <div class="skill-node reveal">
+                    <i>// FABRIC</i>
+                    <b>3D MODELING</b>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Terminal -->
+        <!-- Contact Terminal -->
+<section id="terminal" style="margin-top: 150px;">
+    <h2 class="section-title">SYSTEM ACCESS</h2>
+    <div class="terminal reveal">
+        <div class="terminal-header">
+            <div class="dot red"></div>
+            <div class="dot yellow"></div>
+            <div class="dot green"></div>
+            <span style="margin-left: 20px; font-size: 0.7rem; color: #666;">ssh guest@nihit-taparia-lab</span>
+        </div>
+        <div class="terminal-body">
+            <form id="contactForm" static-form>
+                <div class="terminal-row">
+                    <span class="prompt">guest@nihit:~$</span>
+                    <span>run contact.sh</span>
+                </div>
+                
+                <div class="terminal-row">
+                    <span class="prompt">IDENT_NAME:</span>
+                    <input type="text" name="name" class="input-line" placeholder="Enter your name..." required>
+                </div>
+
+                <div class="terminal-row">
+                    <span class="prompt">IDENT_EMAIL:</span>
+                    <input type="email" name="email" class="input-line" placeholder="Enter your email..." required>
+                </div>
+
+                <div class="terminal-row">
+                    <span class="prompt">MESSAGE_BODY:</span>
+                    <input type="text" name="message" class="input-line" placeholder="Enter transmission..." id="terminalInput" required>
+                </div>
+
+                <div class="terminal-row" style="margin-top: 20px;">
+                    <span class="prompt">COMMAND:</span>
+                    <button type="submit" class="terminal-submit">[ EXECUTE_SEND ]</button>
+                </div>
+            </form>
+            <div id="terminalResponse" style="color: var(--neon-purple); font-size: 0.8rem; margin-top: 15px;"></div>
+        </div>
+    </div>
+</section>
+
+    </div>
+
+    <footer>
+        <div class="footer-logo">NIHIT TAPARIA</div>
+        <div class="footer-links">
+            <a href="#">GITHUB</a>
+            <a href="#">LINKEDIN</a>
+            <a href="#">INSTAGRAM</a>
+            <a href="#">EMAIL</a>
+        </div>
+        <p style="color: #333; font-size: 0.7rem; letter-spacing: 2px;">&copy; 2026 // ALL RIGHTS RESERVED // ENCRYPTION AES-256</p>
+    </footer>
+
+    <script>
+        // Background Animation logic
+        const canvas = document.getElementById('canvas-bg');
+        const ctx = canvas.getContext('2d');
+        let points = [];
+
+        function initCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            points = [];
+            for(let i = 0; i < 50; i++) {
+                points.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5
+                });
+            }
+        }
+
+        function drawCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = '#00f3ff';
+            ctx.lineWidth = 0.2;
+
+            points.forEach((p, i) => {
+                p.x += p.vx;
+                p.y += p.vy;
+
+                if(p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if(p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+                points.forEach((p2, j) => {
+                    if(i === j) return;
+                    let dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+                    if(dist < 200) {
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                });
+            });
+            requestAnimationFrame(drawCanvas);
+        }
+
+        window.addEventListener('resize', initCanvas);
+        initCanvas();
+        drawCanvas();
+
+        // Boot Sequence
+        const messages = [
+            "CONNECTING TO SERVO_MATRIX...",
+            "LINKING HC-05 BLUETOOTH...",
+            "SYNCHRONIZING PWM TIMERS...",
+            "ATMEL CHIPSET VERIFIED",
+            "ACCESS GRANTED"
+        ];
+        
+        let msgIndex = 0;
+        const msgElement = document.getElementById('loading-msg');
+
+        const interval = setInterval(() => {
+            msgElement.innerText = messages[msgIndex];
+            msgIndex++;
+            if (msgIndex >= messages.length) {
+                clearInterval(interval);
+                setTimeout(() => {
+                    const startup = document.getElementById('startup');
+                    startup.style.opacity = '0';
+                    setTimeout(() => startup.style.display = 'none', 800);
+                }, 500);
+            }
+        }, 400);
+
+        // Scroll Reveal
+        window.addEventListener('scroll', () => {
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(el => {
+                const windowHeight = window.innerHeight;
+                const revealTop = el.getBoundingClientRect().top;
+                if (revealTop < windowHeight - 100) {
+                    el.classList.add('active');
+                }
+            });
+        });
+
+        // Terminal Interaction
+        // Enhanced Terminal Interaction
+const contactForm = document.getElementById('contactForm');
+const terminalResponse = document.getElementById('terminalResponse');
+
+contactForm.addEventListener('submit', (e) => {
+    e.preventDefault(); // Prevents the page from refreshing
+
+    // Get the name of the sender for a personalized response
+    const formData = new FormData(contactForm);
+    const userName = formData.get('name').toUpperCase();
+
+    // Visual feedback
+    terminalResponse.innerHTML = `
+        <div style="color: #666;">> INITIALIZING UPLOAD...</div>
+        <div style="color: #666;">> PACKET DATA VERIFIED.</div>
+        <div style="color: var(--neon-blue);">[ SUCCESS ] TRANSMISSION FROM ${userName} ENCRYPTED AND SENT.</div>
+    `;
+
+    // Optional: Clear the form
+    contactForm.reset();
+});
+    </script>
+
+<script src="https://static.app/js/static.js" type="text/javascript"></script>
+<!-- Static App Form Collection Script -->
+<script src="https://static.app/js/static-forms.js" type="text/javascript"></script>
+</body>
+</html>

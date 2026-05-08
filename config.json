@@ -1,0 +1,147 @@
+{
+  "site": {
+    "title": "REYANSH SOMANI // QUANTUM ENGINEERING DIVISION",
+    "description": "Cyberpunk Robotics Portfolio — Reyansh Somani",
+    "logo": "REYANSH // LABS"
+  },
+
+  "hero": {
+    "status": "● ONLINE",
+    "build": "BUILD 2026.05",
+    "title": "BUILDING<br>THE FUTURE",
+    "subtitle": "8th-grade embedded systems engineer, robotics builder, UI architect, terminal designer, and experimental developer engineering futuristic hardware ecosystems, autonomous machines, and immersive cybernetic interfaces.",
+    "buttons": [
+      {
+        "text": "Launch Systems",
+        "link": "#projects"
+      },
+      {
+        "text": "Open mpt-os",
+        "link": "#terminal"
+      }
+    ]
+  },
+
+  "hud": {
+    "node": "NODE: PUNE_HQ",
+    "status": "STATUS: ACTIVE",
+
+    "stats": [
+      {
+        "value": "14+",
+        "label": "Embedded Projects"
+      },
+      {
+        "value": "78%",
+        "label": "Pune Humidity"
+      },
+      {
+        "value": "4",
+        "label": "Custom Systems"
+      },
+      {
+        "value": "24/7",
+        "label": "Lab Uptime"
+      }
+    ]
+  },
+
+  "projects": {
+    "title": "DEPLOYED SYSTEMS",
+    "description": "Experimental robotics platforms, embedded firmware systems, futuristic UI architectures, and immersive engineering concepts designed and engineered inside the Reyansh Labs ecosystem.",
+
+    "cards": [
+      {
+        "type": "large",
+        "tag": "ROBOTICS // AI",
+        "title": "Pioneer Robot",
+        "description": "Agricultural automation platform powered by the Realtek AMB82-Mini featuring AI-assisted insect detection, telemetry systems, autonomous logic, and modular hardware design.",
+        "specs": [
+          "SPI DISPLAY",
+          "AI DETECTION",
+          "3D PRINTED",
+          "ESP32"
+        ],
+        "sensorLabel": "AMB82_CORE_TEMP",
+        "sensorValue": "38.4°C"
+      },
+
+      {
+        "type": "tall",
+        "tag": "FIRMWARE",
+        "title": "EnviroOS",
+        "description": "Futuristic embedded operating environment for TFT hardware systems featuring atmospheric telemetry and environmental analysis.",
+        "humidity": "78%"
+      },
+
+      {
+        "type": "wide",
+        "tag": "SOFTWARE // SHELL",
+        "title": "mpt-os",
+        "description": "Python and JavaScript powered futuristic terminal ecosystem with shell simulation, command architecture, autocomplete concepts, and realistic kernel UX."
+      },
+
+      {
+        "type": "music",
+        "tag": "PHONK // EDM PRODUCTION",
+        "title": "RSymphony"
+      },
+
+      {
+        "type": "normal",
+        "tag": "EMBEDDED",
+        "title": "SMART EVM",
+        "description": "Arduino Uno based electronic voting system with touch-based interfaces and embedded logic."
+      },
+
+      {
+        "type": "normal",
+        "tag": "LINGUISTICS",
+        "title": "BRAHMI_DEC",
+        "description": "Ancient script interpretation logic systems for Prakrit translation and pattern decoding."
+      }
+    ]
+  },
+
+  "terminal": {
+    "welcome": [
+      "Welcome to mpt-os v3.0",
+      "Type 'help' to see commands."
+    ],
+
+    "commands": {
+      "help": "Available: help, status, projects, bio, humidity, clear",
+      "status": "System online | Node: Pune | Humidity: 78% | mpt-os v3.0",
+      "projects": "Projects: Pioneer, EnviroOS, SmartEVM, RSymphony, BRAHMI_DEC",
+      "bio": "Reyansh Somani: Embedded engineer, robotics builder, MUN delegate.",
+      "humidity": "Pune humidity currently at 78%",
+      "clear": ""
+    }
+  },
+
+  "mun": {
+    "tag": "INTERNATIONAL RELATIONS",
+    "title": "STATE OF QATAR // IOM",
+    "description": "Representing the State of Qatar in the International Organization for Migration with focus on sustainable refugee protection, international cooperation, and humanitarian systems strategy."
+  },
+
+  "footer": {
+    "title": "REYANSH SOMANI",
+    "description": "Robotics systems, embedded engineering, futuristic interface architecture, and experimental innovation.",
+
+    "links": [
+      {
+        "text": "GitHub",
+        "url": "#"
+      },
+      {
+        "text": "YouTube",
+        "url": "#"
+      },
+      {
+        "text": "Instagram",
+        "url": "#"
+      }
+    ]
+  }
+}
